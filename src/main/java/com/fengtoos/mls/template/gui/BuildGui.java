@@ -1,6 +1,7 @@
 package com.fengtoos.mls.template.gui;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fengtoos.mls.template.util.DosUtil;
 import com.fengtoos.mls.template.util.ExcelTest;
 import com.fengtoos.mls.template.util.FreeMarkerUtil;
 
@@ -81,6 +82,7 @@ public class BuildGui {//实现监听器的接口
         p2.setPreferredSize(new Dimension(550, 40));
         p2.add(new JLabel("\t生成路径:"));
         wordOutName = new JTextField(20);
+        wordOutName.setEnabled(false);
         wordOutName.setPreferredSize(new Dimension(wordOutName.getWidth(), wordOutName.getHeight() + 28));
         p2.add(wordOutName);
         wordChoose = new JButton("选择路径");
@@ -102,6 +104,7 @@ public class BuildGui {//实现监听器的接口
         p3.setPreferredSize(new Dimension(550, 40));
         p3.add(new JLabel("\t图片路径:"));
         imgName = new JTextField(20);
+        imgName.setEnabled(false);
         imgName.setPreferredSize(new Dimension(imgName.getWidth(), imgName.getHeight() + 28));
         p3.add(imgName);
         imgChoose = new JButton("选择路径");
@@ -143,6 +146,8 @@ public class BuildGui {//实现监听器的接口
             }
 
             saveProp();
+            DosUtil.run();
+            JOptionPane.showMessageDialog(frame, "转换成功！！");
         });
         p4.add(register);
         p4.add(word2pdf);
@@ -169,7 +174,7 @@ public class BuildGui {//实现监听器的接口
             if(file.exists()){
                 file.delete();
             }
-            Writer fw = new FileWriter("doc2pdf.json");
+            Writer fw = new FileWriter("word2pdf/dist/doc2pdf.json");
             JSONObject map = new JSONObject();
             map.put("outPath", wordOutChooser.getSelectedFile().getPath());
             fw.write(map.toString());
@@ -177,7 +182,6 @@ public class BuildGui {//实现监听器的接口
             fw.close();
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(null, "创建生成PDF配置文档失败");
-
         }
     }
 }
