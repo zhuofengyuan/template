@@ -1,11 +1,16 @@
 package com.fengtoos.mls.template.util;
 
+import com.fengtoos.mls.template.App;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
+@Slf4j
 public class DosUtil {
 
 //    public static void main(String[] args) {
@@ -25,6 +30,9 @@ public class DosUtil {
                 content = br.readLine();
             }
         } catch (IOException e) {
+            log.error("解析py命令失败，startpy.bat不存在");
+            log.error(e.getMessage(), e);
+            JOptionPane.showMessageDialog(App.mainGui, "解析py命令失败，startpy.bat不存在");
             e.printStackTrace();
         }
     }

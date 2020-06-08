@@ -8,9 +8,6 @@ import java.awt.*;
  * <pre>
  * 组件工具
  * </pre>
- *
- * @author <a href="https://github.com/rememberber">Zhou Bo</a>
- * @since 2019/6/6.
  */
 public class ComponentUtil {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

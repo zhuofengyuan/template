@@ -1,5 +1,7 @@
-package com.fengtoos.mls.template.util;
+package com.fengtoos.mls.template.service;
 
+import com.fengtoos.mls.template.util.ImageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -7,9 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,34 +19,33 @@ import java.util.stream.Collectors;
  *
  * @author Administrator
  */
-public class ExcelTest {
+@Slf4j
+public class ReportExcelService extends BaseService{
 
 //    public static void main(String[] args) throws Exception {
 //        readTable("F:\\fengtoos\\外包\\20200529\\data.xlsx");
 //    }
 
-
-    //通过对单元格遍历的形式来获取信息 ，这里要判断单元格的类型才可以取出值
-    public static List<Map<String, Object>> readTable(File file, String imgPath) throws Exception {
-        InputStream ips = new FileInputStream(file);
-        XSSFWorkbook wb = new XSSFWorkbook(ips);
+    @Override
+    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) {
         XSSFSheet yellow = wb.getSheetAt(0);
         XSSFSheet green = wb.getSheetAt(1);
         XSSFSheet purple = wb.getSheetAt(2);
         //第一個表的數據
-        List<Map<String, Object>> list = getYellow(yellow, imgPath);
+        log.info("正在解析" + yellow.getSheetName());
+        list.addAll(getYellow(yellow, imgPath));
+        log.info("正在解析" + green.getSheetName());
         getGreen(green, list);
+        log.info("正在解析" + purple.getSheetName());
         getPurple(purple, list);
         for(Map<String, Object> item : list){
             List<Map<String, Object>> l = (List<Map<String, Object>>) item.get("jzdlist");
             item.put("f", l.get(0));
             item.put("jzdlist", l.subList(1, l.size()));
         }
-        System.out.println(Arrays.toString(list.toArray()));
-        return list;
     }
 
-    private static List<Map<String, Object>> getPurple(XSSFSheet purple, List<Map<String, Object>> list){
+    private List<Map<String, Object>> getPurple(XSSFSheet purple, List<Map<String, Object>> list){
         int i = 0;
         String previous = null;
         for (Iterator ite = purple.rowIterator();ite.hasNext(); i++) {
@@ -110,7 +109,7 @@ public class ExcelTest {
         return list;
     }
 
-    private static List<Map<String, Object>> getGreen(XSSFSheet green, List<Map<String, Object>> list){
+    private List<Map<String, Object>> getGreen(XSSFSheet green, List<Map<String, Object>> list){
         int i = 0;
         String previous = null;
         for (Iterator ite = green.rowIterator();ite.hasNext(); i++) {
@@ -171,7 +170,7 @@ public class ExcelTest {
         return list;
     }
 
-    private static List<Map<String, Object>> getYellow(XSSFSheet yellow, String imgPath){
+    private List<Map<String, Object>> getYellow(XSSFSheet yellow, String imgPath){
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         int i = 0;
         for (Iterator ite = yellow.rowIterator();ite.hasNext(); i++) {
@@ -199,7 +198,7 @@ public class ExcelTest {
         return list;
     }
 
-    private static void setStringValue(XSSFRow row, Map<String, Object> rowm, int index, String name){
+    private void setStringValue(XSSFRow row, Map<String, Object> rowm, int index, String name){
         if(row.getCell(index) == null){
             rowm.put(name, "");
             return;

@@ -1,26 +1,25 @@
 package com.fengtoos.mls.template.gui;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fengtoos.mls.template.util.ComponentUtil;
-import com.fengtoos.mls.template.util.DosUtil;
-import com.fengtoos.mls.template.util.ExcelTest;
-import com.fengtoos.mls.template.util.FreeMarkerUtil;
+import com.fengtoos.mls.template.service.ReportExcelService;
+import com.fengtoos.mls.template.service.SurveyExcelService;
+import com.fengtoos.mls.template.util.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static javax.swing.JFileChooser.DIRECTORIES_ONLY;
 
-
+@Slf4j
 public class MainGui extends JFrame{//实现监听器的接口
-    private JPanel p0, p1, p2, p3, p4;
+    private JPanel p0, p1, p2, p3, p4, p5;
 
     private JTextField dataName;
     private JTextField wordOutName;
@@ -30,6 +29,7 @@ public class MainGui extends JFrame{//实现监听器的接口
     private JButton imgChoose;
     private JButton register;
     private JButton word2pdf;
+    private JComboBox selectTemplate;
     private JFileChooser dataChooser; //数据导入选择器
     private JFileChooser wordOutChooser; //word路径选择器
     private JFileChooser imgChooser; //图片路径选择器
@@ -47,6 +47,8 @@ public class MainGui extends JFrame{//实现监听器的接口
         
         this.setName("宗图生成器");
         this.setTitle("宗图生成器");
+        Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icon/logo.png"));
+        this.setIconImage(image);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//设置窗口的点击右上角的x的处理方式，这里设置的是退出程序
     }
 
@@ -128,17 +130,37 @@ public class MainGui extends JFrame{//实现监听器的接口
         register = new JButton("生成Word");
         word2pdf = new JButton("转换PDF");
         register.addActionListener(e -> {
-            try {
-                List<Map<String, Object>> list = ExcelTest.readTable(dataChooser.getSelectedFile(), imgChooser.getSelectedFile().getPath());
-                for (Map<String, Object> item : list) {
-                    String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + "/" + item.get("name") + "-调查表.doc";
-                    FreeMarkerUtil.crateFile(item, "template2020060202.xml.ftl", outfilepath);
-                }
-                JOptionPane.showMessageDialog(this, "已成功生成" + list.size() + "个文件！！");
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                JOptionPane.showMessageDialog(this, "生成失败！！");
+//            try {
+            String filename = "", templateFileName = "";
+            log.info("本次选择的值为：{}， 索引为：{}", this.selectTemplate.getSelectedItem(), this.selectTemplate.getSelectedIndex());
+            List<Map<String, Object>> list = new ArrayList<>();
+            if(this.selectTemplate.getSelectedIndex() == 0){
+                list = new ReportExcelService().readTable(dataChooser.getSelectedFile(), imgChooser.getSelectedFile().getPath());
+                filename = "-调查表.doc";
+                templateFileName = "template2020060202.xml.ftl";
+            } else {
+                list = new SurveyExcelService().readTable(dataChooser.getSelectedFile(), imgChooser.getSelectedFile().getPath());
+                filename = "-协议书.doc";
+                templateFileName = "template2020060801.xml.ftl";
             }
+            for (Map<String, Object> item : list) {
+                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + "/" + item.get("name") + filename;
+                FreeMarkerUtil.crateFile(item, templateFileName, outfilepath);
+            }
+
+            //保存配置文件
+            JSONObject map = new JSONObject();
+            map.put("dataPath", dataChooser.getSelectedFile().getPath());
+            map.put("outPath", wordOutChooser.getSelectedFile().getPath());
+            map.put("imagePath", imgChooser.getSelectedFile().getPath());
+            map.put("select", selectTemplate.getSelectedIndex());
+            SavePropUtil.saveProp(map);
+            JOptionPane.showMessageDialog(this, "已成功生成" + list.size() + "个文件！！");
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//                JOptionPane.showMessageDialog(this, "生成失败！！");
+//                log.error(exception.getMessage(), exception);
+//            }
         });
 
         word2pdf.addActionListener(e -> {
@@ -155,16 +177,42 @@ public class MainGui extends JFrame{//实现监听器的接口
         p4.add(word2pdf);
         p4.setPreferredSize(new Dimension(550, 40));
 
+        p5 = new JPanel();
+        p5.setPreferredSize(new Dimension(550, 40));
+        selectTemplate = new JComboBox();
+        selectTemplate.addItem("农村集体土地所有权权属调查表");
+        selectTemplate.addItem("土地权属界线协议书");
+        p5.add(new JLabel("模板选择："));
+        p5.add(selectTemplate);
 
         this.add(p1);
         this.add(p2);
         this.add(p3);
+        this.add(p5);
         this.add(p4);
 
         this.pack();
         this.setVisible(true);
 //        this.setBounds(500, 500, 550, 400);//设置大小
         this.setLayout(new FlowLayout());//设置流式布局
+
+        //加载配置文件
+        JSONObject prop = SavePropUtil.loadProp();
+        if(prop.containsKey("dataPath")){
+            dataName.setText(prop.getString("dataPath"));
+            dataChooser.setSelectedFile(new File(prop.getString("dataPath")));
+        }
+        if(prop.containsKey("outPath")){
+            wordOutName.setText(prop.getString("outPath"));
+            wordOutChooser.setSelectedFile(new File(prop.getString("outPath")));
+        }
+        if(prop.containsKey("imagePath")){
+            imgName.setText(prop.getString("imagePath"));
+            imgChooser.setSelectedFile(new File(prop.getString("imagePath")));
+        }
+        if(prop.containsKey("select")){
+           selectTemplate.setSelectedItem(prop.getInteger("select"));
+        }
     }
 
 //    public void show() {
@@ -184,6 +232,8 @@ public class MainGui extends JFrame{//实现监听器的接口
             fw.close();
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(null, "创建生成PDF配置文档失败");
+            log.error("创建生成PDF配置文档失败");
+            e1.printStackTrace();
         }
     }
 }

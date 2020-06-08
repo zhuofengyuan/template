@@ -4,12 +4,14 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@Slf4j
 public class FreeMarkerUtil {
 
 //    private static Logger log = Logger.getLogger(FreeMarkerUtil.class);
@@ -53,9 +55,10 @@ public class FreeMarkerUtil {
             // 处理模版
             template.process(data, out);
             out.flush();
-            System.out.println("由模板文件" + templateFileName + "生成" + outFilePath + "成功.");
+            log.info("由模板文件" + templateFileName + "生成" + outFilePath + "成功.");
         } catch (Exception e) {
-            System.out.println("由模板文件" + templateFileName + "生成" + outFilePath + "出错.");
+            log.info("由模板文件" + templateFileName + "生成" + outFilePath + "出错.");
+            log.error(e.getMessage(), e);
             e.printStackTrace();
         } finally {
             try {
