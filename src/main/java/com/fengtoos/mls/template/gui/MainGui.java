@@ -1,6 +1,7 @@
 package com.fengtoos.mls.template.gui;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fengtoos.mls.template.util.ComponentUtil;
 import com.fengtoos.mls.template.util.DosUtil;
 import com.fengtoos.mls.template.util.ExcelTest;
 import com.fengtoos.mls.template.util.FreeMarkerUtil;
@@ -18,8 +19,7 @@ import java.util.Map;
 import static javax.swing.JFileChooser.DIRECTORIES_ONLY;
 
 
-public class BuildGui {//实现监听器的接口
-    private JFrame frame;
+public class MainGui extends JFrame{//实现监听器的接口
     private JPanel p0, p1, p2, p3, p4;
 
     private JTextField dataName;
@@ -30,12 +30,11 @@ public class BuildGui {//实现监听器的接口
     private JButton imgChoose;
     private JButton register;
     private JButton word2pdf;
-    private Reader fw;
     private JFileChooser dataChooser; //数据导入选择器
     private JFileChooser wordOutChooser; //word路径选择器
     private JFileChooser imgChooser; //图片路径选择器
 
-    {
+    private void init(){
         dataChooser = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("Excel表格（xlsx）", "XLSX");
         dataChooser.setFileFilter(filter);
@@ -45,15 +44,18 @@ public class BuildGui {//实现监听器的接口
 
         imgChooser = new JFileChooser();
         imgChooser.setFileSelectionMode(DIRECTORIES_ONLY);
+        
+        this.setName("宗图生成器");
+        this.setTitle("宗图生成器");
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//设置窗口的点击右上角的x的处理方式，这里设置的是退出程序
     }
 
-    public BuildGui() {
-        frame = new JFrame("宗图生成器");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//设置窗口的点击右上角的x的处理方式，这里设置的是退出程序
+    public MainGui() {
+        init();
         p0 = new JPanel();
         p0.setPreferredSize(new Dimension(550, 40));
         p0.add(new JLabel("宗图生成器"));
-        frame.add(p0);
+        this.add(p0);
 
         //------------------------数据导入路径---------------------
         p1 = new JPanel();
@@ -66,7 +68,7 @@ public class BuildGui {//实现监听器的接口
         dataChoose = new JButton("选择文件");
         dataChoose.addActionListener(e -> {
 
-            int i = dataChooser.showOpenDialog(frame.getContentPane());// 显示文件选择对话框
+            int i = dataChooser.showOpenDialog(this.getContentPane());// 显示文件选择对话框
 
             // 判断用户单击的是否为“打开”按钮
             if (i == JFileChooser.APPROVE_OPTION) {
@@ -88,7 +90,7 @@ public class BuildGui {//实现监听器的接口
         wordChoose = new JButton("选择路径");
         wordChoose.addActionListener(e -> {
 
-            int i = wordOutChooser.showOpenDialog(frame.getContentPane());// 显示文件选择对话框
+            int i = wordOutChooser.showOpenDialog(this.getContentPane());// 显示文件选择对话框
 
             // 判断用户单击的是否为“打开”按钮
             if (i == JFileChooser.APPROVE_OPTION) {
@@ -110,7 +112,7 @@ public class BuildGui {//实现监听器的接口
         imgChoose = new JButton("选择路径");
         imgChoose.addActionListener(e -> {
 
-            int i = imgChooser.showOpenDialog(frame.getContentPane());// 显示文件选择对话框
+            int i = imgChooser.showOpenDialog(this.getContentPane());// 显示文件选择对话框
 
             // 判断用户单击的是否为“打开”按钮
             if (i == JFileChooser.APPROVE_OPTION) {
@@ -132,41 +134,41 @@ public class BuildGui {//实现监听器的接口
                     String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + "/" + item.get("name") + "-调查表.doc";
                     FreeMarkerUtil.crateFile(item, "template2020060202.xml.ftl", outfilepath);
                 }
-                JOptionPane.showMessageDialog(frame, "已成功生成" + list.size() + "个文件！！");
+                JOptionPane.showMessageDialog(this, "已成功生成" + list.size() + "个文件！！");
             } catch (Exception exception) {
                 exception.printStackTrace();
-                JOptionPane.showMessageDialog(frame, "生成失败！！");
+                JOptionPane.showMessageDialog(this, "生成失败！！");
             }
         });
 
         word2pdf.addActionListener(e -> {
             if (wordOutChooser.getSelectedFile() == null) {
-                JOptionPane.showMessageDialog(frame, "请选择生成路径");
+                JOptionPane.showMessageDialog(this, "请选择生成路径");
                 return;
             }
 
             saveProp();
             DosUtil.run();
-            JOptionPane.showMessageDialog(frame, "转换成功！！");
+            JOptionPane.showMessageDialog(this, "转换成功！！");
         });
         p4.add(register);
         p4.add(word2pdf);
         p4.setPreferredSize(new Dimension(550, 40));
 
-        frame.add(p1);
-        frame.add(p2);
-        frame.add(p3);
-        frame.add(p4);
 
-        frame.pack();
-        frame.setVisible(true);
-        show();
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+
+        this.pack();
+        this.setVisible(true);
+//        this.setBounds(500, 500, 550, 400);//设置大小
+        this.setLayout(new FlowLayout());//设置流式布局
     }
 
-    public void show() {
-        frame.setBounds(500, 500, 550, 400);//设置大小
-        frame.setLayout(new FlowLayout());//设置流式布局
-    }
+//    public void show() {
+//    }
 
     public void saveProp() {
         try {
