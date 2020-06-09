@@ -40,9 +40,9 @@ public class FreeMarkerUtil {
      * 据数据及模板生成文件
      * @param data             Map的数据结果集
      * @param templateFileName ftl模版文件名
-     * @param outFilePath      生成文件名称(可带路径)
+     * @param outFilePath      生成文件名称(可带路径)1
      */
-    public static File crateFile(Map<String, Object> data, String templateFileName, String outFilePath) {
+    public static File createFile(Map<String, Object> data, String templateFileName, String outFilePath) {
         Writer out = null;
         File outFile = new File(outFilePath);
         try {
@@ -78,7 +78,7 @@ public class FreeMarkerUtil {
 //            List<Map<String, Object>> list = ExcelTest.readTable("F:\\fengtoos\\外包\\20200529\\data.xlsx");
 //            for(Map<String, Object> item : list){
 //                String outfilepath = "F:/template/file/" + item.get("number") + "/" + item.get("name") + "-调查表.doc";
-//                crateFile(item, "template2020060202.xml.ftl", outfilepath);
+//                createFile(item, "template2020060202.xml.ftl", outfilepath);
 //            }
 //        } catch (Exception e) {
 //            e.printStackTrace();

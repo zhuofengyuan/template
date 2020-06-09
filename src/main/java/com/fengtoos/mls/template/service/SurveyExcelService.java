@@ -34,6 +34,7 @@ public class SurveyExcelService extends BaseService{
             setStringValue(row, rowm, 1, "code");
             setStringValue(row, rowm, 4, "dc");
             setStringValue(row, rowm, 5, "jc");
+            setStringValue(row, rowm, 6, "dcrq");
             setStringValue(row, rowm, 7, "location");
             setStringValue(row, rowm, 8, "z");
             setStringValue(row, rowm, 9, "c");
@@ -46,7 +47,7 @@ public class SurveyExcelService extends BaseService{
             setStringValue(row, rowm, 16, "zw1");
             setStringValue(row, rowm, 17, "id1");
             setStringValue(row, rowm, 18, "tf");
-            rowm.put("gl", "");
+            setStringValue(row, rowm, 19, "gl");
             rowm.put("img", ImageUtil.image2Base64(imgPath + "\\" + rowm.get("number") + ".jpg"));
             list.add(rowm);
         }
@@ -69,6 +70,10 @@ public class SurveyExcelService extends BaseService{
             return;
         }
         row.getCell(index).setCellType(CellType.STRING);
+        if("location".equals(name)){
+            rowm.put(name, row.getCell(index).getRichStringCellValue().toString().replace("\n", "<w:br/>"));
+            return;
+        }
         rowm.put(name, row.getCell(index).getRichStringCellValue().toString());
     }
 }

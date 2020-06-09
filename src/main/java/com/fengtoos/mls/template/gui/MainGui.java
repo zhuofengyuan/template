@@ -3,14 +3,20 @@ package com.fengtoos.mls.template.gui;
 import com.alibaba.fastjson.JSONObject;
 import com.fengtoos.mls.template.service.ReportExcelService;
 import com.fengtoos.mls.template.service.SurveyExcelService;
-import com.fengtoos.mls.template.util.*;
+import com.fengtoos.mls.template.util.DosUtil;
+import com.fengtoos.mls.template.util.FreeMarkerUtil;
+import com.fengtoos.mls.template.util.SavePropUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +35,12 @@ public class MainGui extends JFrame{//实现监听器的接口
     private JButton imgChoose;
     private JButton register;
     private JButton word2pdf;
+    private JButton download;
     private JComboBox selectTemplate;
     private JFileChooser dataChooser; //数据导入选择器
     private JFileChooser wordOutChooser; //word路径选择器
     private JFileChooser imgChooser; //图片路径选择器
+    private JFileChooser downloadChooser;
 
     private void init(){
         dataChooser = new JFileChooser();
@@ -44,6 +52,9 @@ public class MainGui extends JFrame{//实现监听器的接口
 
         imgChooser = new JFileChooser();
         imgChooser.setFileSelectionMode(DIRECTORIES_ONLY);
+
+        downloadChooser = new JFileChooser();
+        downloadChooser.setFileSelectionMode(DIRECTORIES_ONLY);
         
         this.setName("宗图生成器");
         this.setTitle("宗图生成器");
@@ -141,11 +152,11 @@ public class MainGui extends JFrame{//实现监听器的接口
             } else {
                 list = new SurveyExcelService().readTable(dataChooser.getSelectedFile(), imgChooser.getSelectedFile().getPath());
                 filename = "-协议书.doc";
-                templateFileName = "template2020060801.xml.ftl";
+                templateFileName = "template2020060901.xml.ftl";
             }
             for (Map<String, Object> item : list) {
-                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + "/" + item.get("name") + filename;
-                FreeMarkerUtil.crateFile(item, templateFileName, outfilepath);
+                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + "/" + item.get("number") + filename;
+                FreeMarkerUtil.createFile(item, templateFileName, outfilepath);
             }
 
             //保存配置文件
@@ -184,15 +195,31 @@ public class MainGui extends JFrame{//实现监听器的接口
         selectTemplate.addItem("土地权属界线协议书");
         p5.add(new JLabel("模板选择："));
         p5.add(selectTemplate);
+        download = new JButton("下载导入模板");
+        download.addActionListener(e -> {
+            int i = downloadChooser.showOpenDialog(this.getContentPane());// 显示文件选择对话框
+
+            // 判断用户单击的是否为“打开”按钮
+            if (i == JFileChooser.APPROVE_OPTION) {
+
+                File selectedFile = downloadChooser.getSelectedFile();// 获得选中的文件对象
+                File origin = new File(this.getClass().getResource("/import/data.xlsx").getPath());
+                try {
+                    Files.copy(origin.toPath(), new File(selectedFile.getPath() + "\\data.xlsx").toPath());
+                    JOptionPane.showMessageDialog(this, "文件已存放：" + selectedFile.getPath() + "\\数据导入模板.xlsx");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "下载失败，数据模板不存在或已损坏！！");
+                }
+            }
+        });
+        p5.add(download);
 
         this.add(p1);
         this.add(p2);
         this.add(p3);
         this.add(p5);
         this.add(p4);
-
-        this.pack();
-        this.setVisible(true);
 //        this.setBounds(500, 500, 550, 400);//设置大小
         this.setLayout(new FlowLayout());//设置流式布局
 

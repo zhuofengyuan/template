@@ -14,5 +14,7 @@ public class App {
         Init.initTheme();
         mainGui = new MainGui();
         ComponentUtil.setPreferSizeAndLocateToCenter(mainGui, 0.3, 0.4);
+        mainGui.pack();
+        mainGui.setVisible(true);
     }
 }
