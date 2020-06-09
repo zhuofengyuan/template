@@ -1287,7 +1287,7 @@
                                         <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
                                         <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
                                     </w:tcBorders>
-                                    <w:vAlign w:val="center"/>
+                                    <w:vAlign w:val="left"/>
                                 </w:tcPr>
                                 <w:p w:rsidR="00B53158" w:rsidRDefault="001B0B07" w:rsidP="005D00E6">
                                     <w:pPr>

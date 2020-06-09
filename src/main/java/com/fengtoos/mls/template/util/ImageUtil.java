@@ -22,8 +22,9 @@ public class ImageUtil {
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(App.mainGui, "找不到图片：" + imgFile);
+//            JOptionPane.showMessageDialog(App.mainGui, "找不到图片：" + imgFile);
             log.error("找不到图片：" + imgFile);
+            return "";
         }
         return Base64.getEncoder().encodeToString(data);
     }

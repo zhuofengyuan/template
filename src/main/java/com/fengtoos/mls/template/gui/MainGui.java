@@ -144,18 +144,20 @@ public class MainGui extends JFrame{//实现监听器的接口
 //            try {
             String filename = "", templateFileName = "";
             log.info("本次选择的值为：{}， 索引为：{}", this.selectTemplate.getSelectedItem(), this.selectTemplate.getSelectedIndex());
-            List<Map<String, Object>> list = new ArrayList<>();
+            List<Map<String, Object>> list;
+            File imgPath = imgChooser.getSelectedFile();
             if(this.selectTemplate.getSelectedIndex() == 0){
-                list = new ReportExcelService().readTable(dataChooser.getSelectedFile(), imgChooser.getSelectedFile().getPath());
+                list = new ReportExcelService().readTable(dataChooser.getSelectedFile(), imgPath==null?null:imgPath.getPath());
                 filename = "-调查表.doc";
                 templateFileName = "template2020060202.xml.ftl";
             } else {
-                list = new SurveyExcelService().readTable(dataChooser.getSelectedFile(), imgChooser.getSelectedFile().getPath());
+                list = new SurveyExcelService().readTable(dataChooser.getSelectedFile(), imgPath==null?null:imgPath.getPath());
                 filename = "-协议书.doc";
                 templateFileName = "template2020060901.xml.ftl";
             }
+            String hasImg = imgPath==null?"（无图）":"";
             for (Map<String, Object> item : list) {
-                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + "/" + item.get("number") + filename;
+                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + hasImg + "/" + item.get("number") + filename;
                 FreeMarkerUtil.createFile(item, templateFileName, outfilepath);
             }
 
@@ -163,7 +165,7 @@ public class MainGui extends JFrame{//实现监听器的接口
             JSONObject map = new JSONObject();
             map.put("dataPath", dataChooser.getSelectedFile().getPath());
             map.put("outPath", wordOutChooser.getSelectedFile().getPath());
-            map.put("imagePath", imgChooser.getSelectedFile().getPath());
+            map.put("imagePath", imgPath==null?"":imgPath.getPath());
             map.put("select", selectTemplate.getSelectedIndex());
             SavePropUtil.saveProp(map);
             JOptionPane.showMessageDialog(this, "已成功生成" + list.size() + "个文件！！");
