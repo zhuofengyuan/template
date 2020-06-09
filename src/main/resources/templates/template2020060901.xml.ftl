@@ -1287,11 +1287,11 @@
                                         <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
                                         <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
                                     </w:tcBorders>
-                                    <w:vAlign w:val="left"/>
+                                    <w:vAlign w:val="center"/>
                                 </w:tcPr>
                                 <w:p w:rsidR="00B53158" w:rsidRDefault="001B0B07" w:rsidP="005D00E6">
                                     <w:pPr>
-                                        <w:jc w:val="center"/>
+                                        <w:jc w:val="left"/>
                                         <w:rPr>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
@@ -1921,6 +1921,7 @@
                                             <w:color w:val="000000" w:themeColor="text1"/>
                                             <w:sz w:val="24"/>
                                         </w:rPr>
+                                        <#if img?length gt 1>
                                         <w:drawing>
                                             <wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0"
                                                        relativeHeight="251658240" behindDoc="0" locked="0"
@@ -1985,6 +1986,7 @@
                                                 </wp14:sizeRelV>
                                             </wp:anchor>
                                         </w:drawing>
+                                        </#if>
                                     </w:r>
                                 </w:p>
                             </w:tc>

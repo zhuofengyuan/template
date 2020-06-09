@@ -7,6 +7,7 @@ import com.fengtoos.mls.template.util.DosUtil;
 import com.fengtoos.mls.template.util.FreeMarkerUtil;
 import com.fengtoos.mls.template.util.SavePropUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -155,8 +156,13 @@ public class MainGui extends JFrame{//实现监听器的接口
                 filename = "-协议书.doc";
                 templateFileName = "template2020060901.xml.ftl";
             }
-            String hasImg = imgPath==null?"（无图）":"";
+            String hasImg = "";
             for (Map<String, Object> item : list) {
+                if(StringUtils.isEmpty(item.get("img"))){
+                    hasImg = "（无图）";
+                } else {
+                    hasImg = "";
+                }
                 String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + hasImg + "/" + item.get("number") + filename;
                 FreeMarkerUtil.createFile(item, templateFileName, outfilepath);
             }

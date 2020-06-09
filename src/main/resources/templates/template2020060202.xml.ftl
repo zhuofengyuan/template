@@ -1703,6 +1703,7 @@
                                         <w:rPr>
                                             <w:noProof/>
                                         </w:rPr>
+                                        <#if img?length gt 1>
                                         <w:drawing>
                                             <wp:inline distT="0" distB="0" distL="0" distR="0">
                                                 <wp:extent cx="5875200" cy="7470000"/>
@@ -1759,6 +1760,7 @@
                                                 </a:graphic>
                                             </wp:inline>
                                         </w:drawing>
+                                        </#if>
                                     </w:r>
                                 </w:p>
                             </w:tc>
