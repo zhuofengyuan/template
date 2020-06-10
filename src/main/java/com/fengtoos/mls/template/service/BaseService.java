@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class BaseService {
             ips = new FileInputStream(file);
             wb = new XSSFWorkbook(ips);
             execute(wb, list, imgPath);
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
             if(e instanceof FileNotFoundException){
                 log.error("系统找不到或文件不存在：" + file.getPath());
@@ -37,5 +38,5 @@ public class BaseService {
         return list;
     }
 
-    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) {}
+    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) throws ParseException {}
 }

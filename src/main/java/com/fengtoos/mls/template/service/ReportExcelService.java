@@ -4,12 +4,11 @@ import com.fengtoos.mls.template.util.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class ReportExcelService extends BaseService{
 //    }
 
     @Override
-    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) {
+    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) throws ParseException{
         XSSFSheet yellow = wb.getSheetAt(0);
         XSSFSheet green = wb.getSheetAt(1);
         XSSFSheet purple = wb.getSheetAt(2);
@@ -40,12 +39,17 @@ public class ReportExcelService extends BaseService{
         getPurple(purple, list);
         for(Map<String, Object> item : list){
             List<Map<String, Object>> l = (List<Map<String, Object>>) item.get("jzdlist");
+            if(l.isEmpty()){
+                item.put("f", Collections.emptyList());
+                item.put("jzdlist", Collections.emptyList());
+                continue;
+            }
             item.put("f", l.get(0));
             item.put("jzdlist", l.subList(1, l.size()));
         }
     }
 
-    private List<Map<String, Object>> getPurple(XSSFSheet purple, List<Map<String, Object>> list){
+    private List<Map<String, Object>> getPurple(XSSFSheet purple, List<Map<String, Object>> list) throws ParseException {
         int i = 0;
         String previous = null;
         for (Iterator ite = purple.rowIterator();ite.hasNext(); i++) {
@@ -62,7 +66,11 @@ public class ReportExcelService extends BaseService{
             setStringValue(row, rowm, 5, "b");
             setStringValue(row, rowm, 6, "l");
             setStringValue(row, rowm, 7, "jx");
-            Map<String, Object> o = list.stream().filter(item -> item.get("number").equals(rowm.get("number"))).collect(Collectors.toList()).get(0);
+            List<Map<String, Object>> filter = list.stream().filter(item -> item.get("number").equals(rowm.get("number"))).collect(Collectors.toList());
+            if(filter.isEmpty()){
+                continue;
+            }
+            Map<String, Object> o = filter.get(0);
             if(previous!= null && !previous.equals(rowm.get("number"))) {
                 final String fpre =  previous;
                 Map<String, Object> ob = list.stream().filter(item -> fpre.equals(item.get("number"))).collect(Collectors.toList()).get(0);
@@ -109,7 +117,7 @@ public class ReportExcelService extends BaseService{
         return list;
     }
 
-    private List<Map<String, Object>> getGreen(XSSFSheet green, List<Map<String, Object>> list){
+    private List<Map<String, Object>> getGreen(XSSFSheet green, List<Map<String, Object>> list) throws ParseException {
         int i = 0;
         String previous = null;
         for (Iterator ite = green.rowIterator();ite.hasNext(); i++) {
@@ -125,7 +133,11 @@ public class ReportExcelService extends BaseService{
             setStringValue(row, rowm, 4, "zj");
             setStringValue(row, rowm, 5, "xy");
             setStringValue(row, rowm, 6, "bz");
-            Map<String, Object> o = list.stream().filter(item -> item.get("number").equals(rowm.get("number"))).collect(Collectors.toList()).get(0);
+            List<Map<String, Object>> filter = list.stream().filter(item -> item.get("number").equals(rowm.get("number"))).collect(Collectors.toList());
+            if(filter.isEmpty()){
+                continue;
+            }
+            Map<String, Object> o = filter.get(0);
             if(previous!= null && !previous.equals(rowm.get("number"))) {
                 final String fpre =  previous;
                 Map<String, Object> ob = list.stream().filter(item -> fpre.equals(item.get("number"))).collect(Collectors.toList()).get(0);
@@ -170,7 +182,7 @@ public class ReportExcelService extends BaseService{
         return list;
     }
 
-    private List<Map<String, Object>> getYellow(XSSFSheet yellow, String imgPath){
+    private List<Map<String, Object>> getYellow(XSSFSheet yellow, String imgPath) throws ParseException {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         int i = 0;
         for (Iterator ite = yellow.rowIterator();ite.hasNext(); i++) {
@@ -198,7 +210,7 @@ public class ReportExcelService extends BaseService{
         return list;
     }
 
-    private void setStringValue(XSSFRow row, Map<String, Object> rowm, int index, String name){
+    private void setStringValue(XSSFRow row, Map<String, Object> rowm, int index, String name) throws ParseException {
         if(row.getCell(index) == null){
             rowm.put(name, "");
             return;
@@ -206,8 +218,11 @@ public class ReportExcelService extends BaseService{
         Cell cell = row.getCell(index);
         if("htrq".equals(name)){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            double value = cell.getNumericCellValue();
-            Date date = DateUtil.getJavaDate(value);
+            SimpleDateFormat orgsdf = new SimpleDateFormat("yyyy年MM月dd日");
+            String value = cell.getStringCellValue();
+//            double value = cell.getNumericCellValue();
+//            Date date = DateUtil.getJavaDate();
+            Date date = orgsdf.parse(value);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             rowm.put(name,  sdf.format(date));

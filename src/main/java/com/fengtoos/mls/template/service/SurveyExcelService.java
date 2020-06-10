@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -16,13 +17,13 @@ import java.util.*;
 public class SurveyExcelService extends BaseService{
 
     @Override
-    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) {
+    protected void execute(XSSFWorkbook wb, List<Map<String, Object>> list, String imgPath) throws ParseException {
         XSSFSheet main = wb.getSheetAt(3);
         log.info("正在解析" + main.getSheetName());
         list = this.getData(main, list, imgPath);
     }
 
-    private List<Map<String, Object>> getData(XSSFSheet yellow, List<Map<String, Object>> list, String imgPath){
+    private List<Map<String, Object>> getData(XSSFSheet yellow, List<Map<String, Object>> list, String imgPath) throws ParseException {
         int i = 0;
         for (Iterator ite = yellow.rowIterator();ite.hasNext(); i++) {
             XSSFRow row = (XSSFRow) ite.next();
@@ -54,7 +55,7 @@ public class SurveyExcelService extends BaseService{
         return list;
     }
 
-    private void setStringValue(XSSFRow row, Map<String, Object> rowm, int index, String name){
+    private void setStringValue(XSSFRow row, Map<String, Object> rowm, int index, String name) throws ParseException {
         if(row.getCell(index) == null){
             rowm.put(name, "");
             return;
@@ -62,8 +63,11 @@ public class SurveyExcelService extends BaseService{
         Cell cell = row.getCell(index);
         if("dcrq".equals(name)){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-            double value = cell.getNumericCellValue();
-            Date date = DateUtil.getJavaDate(value);
+            SimpleDateFormat orgsdf = new SimpleDateFormat("yyyy年MM月dd日");
+            String value = cell.getStringCellValue();
+//            double value = cell.getNumericCellValue();
+//            Date date = DateUtil.getJavaDate(value);
+            Date date = orgsdf.parse(value);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             rowm.put(name,  sdf.format(date));
