@@ -163,7 +163,13 @@ public class MainGui extends JFrame{//实现监听器的接口
                 } else {
                     hasImg = "";
                 }
-                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + hasImg + "/" + item.get("number") + "-" + item.get("code") + filename;
+                String number = item.get("number").toString();
+//                String outfilepath = wordOutChooser.getSelectedFile().getPath() + "/" + item.get("number") + hasImg + "/" + item.get("number") + "-" + item.get("code") + filename;
+                String outfilepath = String.format("%s/%s%s/%s-%s%s", wordOutChooser.getSelectedFile().getPath(), number, hasImg, number, item.get("code"), filename);
+                if(number.length() > 12){
+                    outfilepath = String.format("%s/%s/%s/%s/%s%s/%s-%s%s", wordOutChooser.getSelectedFile().getPath(), number.substring(0, 6),
+                            number.substring(6, 9), number.substring(9, 12), item.get("number"), hasImg, number, item.get("code"), filename);
+                }
                 FreeMarkerUtil.createFile(item, templateFileName, outfilepath);
             }
 

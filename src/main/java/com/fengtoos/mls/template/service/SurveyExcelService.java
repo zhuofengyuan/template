@@ -65,6 +65,10 @@ public class SurveyExcelService extends BaseService{
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
             SimpleDateFormat orgsdf = new SimpleDateFormat("yyyy年MM月dd日");
             String value = cell.getStringCellValue();
+            if("".equals(value)){
+                rowm.put(name, "");
+                return ;
+            }
 //            double value = cell.getNumericCellValue();
 //            Date date = DateUtil.getJavaDate(value);
             Date date = orgsdf.parse(value);

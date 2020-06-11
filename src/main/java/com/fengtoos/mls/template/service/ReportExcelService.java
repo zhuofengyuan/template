@@ -76,8 +76,8 @@ public class ReportExcelService extends BaseService{
                 Map<String, Object> ob = list.stream().filter(item -> fpre.equals(item.get("number"))).collect(Collectors.toList()).get(0);
                 List<Map<String, Object>> listChild = (List<Map<String, Object>>) ob.get("jzdlist");
                 //再补充剩余的行数
-                if (listChild.size() < 8) {
-                    for (int j = list.size() + 1; j < 9; j++) {
+                if (listChild.size() < 17) {
+                    for (int j = listChild.size() + 1; j < 18; j++) {
                         Map<String, Object> rowx = new HashMap<String, Object>();
                         rowx.put("number", previous);
                         rowx.put("dh", "");
@@ -100,8 +100,8 @@ public class ReportExcelService extends BaseService{
         Map<String, Object> oa = list.stream().filter(item -> item.get("number").equals(fpre1)).collect(Collectors.toList()).get(0);
         List<Map<String, Object>> listChild = (List<Map<String, Object>>) oa.get("jzdlist");
         //再补充剩余的行数
-        if (listChild.size() < 16) {
-            for (int j = listChild.size() + 1; j < 17; j++) {
+        if (listChild.size() < 17) {
+            for (int j = listChild.size() + 1; j < 18; j++) {
                 Map<String, Object> rowx = new HashMap<String, Object>();
                 rowx.put("number", previous);
                 rowx.put("dh", "");
@@ -143,8 +143,8 @@ public class ReportExcelService extends BaseService{
                 Map<String, Object> ob = list.stream().filter(item -> fpre.equals(item.get("number"))).collect(Collectors.toList()).get(0);
                 List<Map<String, Object>> listChild = (List<Map<String, Object>>) ob.get("xlzdlist");
                 //再补充剩余的行数
-                if (listChild.size() < 8) {
-                    for (int j = list.size() + 1; j < 9; j++) {
+                if (listChild.size() < 7) {
+                    for (int j = listChild.size() + 1; j < 8; j++) {
                         Map<String, Object> rowx = new HashMap<String, Object>();
                         rowx.put("number", previous);
                         rowx.put("qd", "");
@@ -157,6 +157,7 @@ public class ReportExcelService extends BaseService{
                     }
                 }
                 i = 0;
+                log.info(previous + "：已补充行数！");
             }
             ((List<Map<String, Object>>) o.get("xlzdlist")).add(rowm);
             previous = rowm.get("number").toString();
@@ -166,8 +167,8 @@ public class ReportExcelService extends BaseService{
         Map<String, Object> oa = list.stream().filter(item -> item.get("number").equals(fpre1)).collect(Collectors.toList()).get(0);
         List<Map<String, Object>> listChild = (List<Map<String, Object>>) oa.get("xlzdlist");
         //再补充剩余的行数
-        if (listChild.size() < 8) {
-            for (int j = listChild.size() + 1; j < 9; j++) {
+        if (listChild.size() < 7) {
+            for (int j = listChild.size() + 1; j < 8; j++) {
                 Map<String, Object> rowx = new HashMap<String, Object>();
                 rowx.put("number", previous);
                 rowx.put("qd", "");
@@ -222,6 +223,13 @@ public class ReportExcelService extends BaseService{
             String value = cell.getStringCellValue();
 //            double value = cell.getNumericCellValue();
 //            Date date = DateUtil.getJavaDate();
+            if("".equals(value)){
+                rowm.put(name, "");
+                rowm.put("year", "");
+                rowm.put("month", "");
+                rowm.put("day", "");
+                return ;
+            }
             Date date = orgsdf.parse(value);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
