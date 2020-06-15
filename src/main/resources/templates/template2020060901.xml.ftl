@@ -260,7 +260,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${z}</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -268,7 +268,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>街办（镇）</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -315,7 +315,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${z1}</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -323,7 +323,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>街办（镇）</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -355,7 +355,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${c}</w:t>
+                                        <w:t>${bzqlr}</w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -363,7 +363,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>村（社区）农民集体</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -410,7 +410,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${c1}</w:t>
+                                        <w:t>${lzqlr}</w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -418,7 +418,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>村（社区）农民集体</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -560,7 +560,7 @@
                                 </w:tcPr>
                                 <w:p w:rsidR="008337D1" w:rsidRDefault="001B0B07">
                                     <w:pPr>
-                                        <w:jc w:val="right"/>
+                                        <w:jc w:val="left"/>
                                         <w:rPr>
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
@@ -568,10 +568,11 @@
                                     </w:pPr>
                                     <w:r>
                                         <w:rPr>
+                                            <w:jc w:val="left"/>
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${z}</w:t>
+                                        <w:t>${bzqlr}</w:t>
                                     </w:r>
                                     <w:r w:rsidR="00B53158">
                                         <w:rPr>
@@ -579,12 +580,12 @@
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
                                         </w:rPr>
-                                        <w:t>街办（镇）</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                                 <w:p w:rsidR="008337D1" w:rsidRDefault="001B0B07">
                                     <w:pPr>
-                                        <w:jc w:val="right"/>
+                                        <w:jc w:val="left"/>
                                         <w:rPr>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
@@ -594,7 +595,7 @@
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${c}</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                     <w:r w:rsidR="00B53158">
                                         <w:rPr>
@@ -602,7 +603,7 @@
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
                                         </w:rPr>
-                                        <w:t>村（社区）农民集体</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -620,7 +621,7 @@
                                 </w:tcPr>
                                 <w:p w:rsidR="008337D1" w:rsidRDefault="00B53158">
                                     <w:pPr>
-                                        <w:jc w:val="center"/>
+                                        <w:jc w:val="left"/>
                                         <w:rPr>
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
@@ -632,14 +633,15 @@
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
                                         </w:rPr>
-                                        <w:t xml:space="preserve">                  </w:t>
+                                        <w:t xml:space="preserve"></w:t>
                                     </w:r>
                                     <w:r w:rsidR="001B0B07">
                                         <w:rPr>
+                                            <w:jc w:val="left"/>
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${z1}</w:t>
+                                        <w:t>${lzqlr}</w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -647,7 +649,7 @@
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
                                         </w:rPr>
-                                        <w:t>街办（镇）</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                                 <w:p w:rsidR="008337D1" w:rsidRDefault="00B53158">
@@ -663,14 +665,14 @@
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
                                         </w:rPr>
-                                        <w:t xml:space="preserve">       </w:t>
+                                        <w:t xml:space="preserve"></w:t>
                                     </w:r>
                                     <w:r w:rsidR="001B0B07">
                                         <w:rPr>
                                             <w:sz w:val="28"/>
                                             <w:szCs w:val="28"/>
                                         </w:rPr>
-                                        <w:t>${c1}</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -678,7 +680,7 @@
                                             <w:sz w:val="22"/>
                                             <w:szCs w:val="22"/>
                                         </w:rPr>
-                                        <w:t>村（社区）农民集体</w:t>
+                                        <w:t></w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>

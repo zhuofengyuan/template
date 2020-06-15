@@ -33,6 +33,8 @@ public class SurveyExcelService extends BaseService{
             Map<String, Object> rowm = new HashMap<String, Object>();
             setStringValue(row, rowm, 0, "number");
             setStringValue(row, rowm, 1, "code");
+            setStringValue(row, rowm, 2, "bzqlr");
+            setStringValue(row, rowm, 3, "lzqlr");
             setStringValue(row, rowm, 4, "dc");
             setStringValue(row, rowm, 5, "jc");
             setStringValue(row, rowm, 6, "dcrq");

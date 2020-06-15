@@ -1696,7 +1696,7 @@
                         <w:tr w:rsidR="00655735">
                             <w:trPr>
                                 <w:cantSplit/>
-                                <w:trHeight w:hRule="exact" w:val="11951"/>
+                                <w:trHeight w:hRule="exact" w:val="11764"/>
                             </w:trPr>
                             <w:tc>
                                 <w:tcPr>
@@ -1766,7 +1766,7 @@
                                                             <pic:spPr bwMode="auto">
                                                                 <a:xfrm>
                                                                     <a:off x="0" y="0"/>
-                                                                    <a:ext cx="5875200" cy="7470000"/>
+                                                                    <a:ext cx="5821200" cy="7394400"/>
                                                                 </a:xfrm>
                                                                 <a:prstGeom prst="rect">
                                                                     <a:avLst/>
@@ -3988,7 +3988,7 @@
                                             <w:color w:val="000000" w:themeColor="text1"/>
                                             <w:sz w:val="24"/>
                                         </w:rPr>
-                                        <w:t>${year}</w:t>
+                                        <w:t xml:space="preserve">    </w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -4004,7 +4004,7 @@
                                             <w:color w:val="000000" w:themeColor="text1"/>
                                             <w:sz w:val="24"/>
                                         </w:rPr>
-                                        <w:t>${month}</w:t>
+                                        <w:t  xml:space="preserve">  </w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>
@@ -4020,7 +4020,7 @@
                                             <w:color w:val="000000" w:themeColor="text1"/>
                                             <w:sz w:val="24"/>
                                         </w:rPr>
-                                        <w:t>${day}</w:t>
+                                        <w:t xml:space="preserve">  </w:t>
                                     </w:r>
                                     <w:r>
                                         <w:rPr>

@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -240,6 +241,11 @@ public class ReportExcelService extends BaseService{
             return;
         }
         row.getCell(index).setCellType(CellType.STRING);
+        if("x".equals(name) || "y".equals(name) || "jx".equals(name)){
+            BigDecimal bg = new BigDecimal(row.getCell(index).getRichStringCellValue().toString());
+            rowm.put(name, bg.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+            return;
+        }
         rowm.put(name, row.getCell(index).getRichStringCellValue().toString());
     }
 }

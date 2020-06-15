@@ -3,10 +3,12 @@ package com.fengtoos.mls.template.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fengtoos.mls.template.App;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.io.*;
 
+@Slf4j
 public class SavePropUtil {
 
     public static void saveProp(JSONObject map) {
@@ -20,7 +22,8 @@ public class SavePropUtil {
             fw.flush();
             fw.close();
         } catch (Exception e1) {
-            JOptionPane.showMessageDialog(null, "创建历史配置文档失败");
+            log.error(e1.getMessage(), e1);
+//            JOptionPane.showMessageDialog(null, "创建历史配置文档失败");
             JOptionPane.showMessageDialog(App.mainGui, "创建历史配置文档失败");
         }
     }
