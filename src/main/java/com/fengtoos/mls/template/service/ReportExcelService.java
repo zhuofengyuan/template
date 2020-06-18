@@ -90,6 +90,12 @@ public class ReportExcelService extends BaseService{
                         rowx.put("jx", "");
                         listChild.add(rowx);
                     }
+                } else if(i == 18 || i == 60){
+                    Map<String, Object> rowx = new HashMap<>();
+                    rowx.putAll(listChild.get(17));
+                    listChild.get(17).put("jx", "");
+                    //复制一行
+                    listChild.add(18, listChild.get(17));
                 }
                 i = 0;
             }
@@ -114,6 +120,36 @@ public class ReportExcelService extends BaseService{
                 rowx.put("jx", "");
                 listChild.add(rowx);
             }
+        } else if(listChild.size() > 17 && listChild.size() < 38){
+            Map<String, Object> rowx = new HashMap<>();
+            rowx.putAll(listChild.get(17));
+            listChild.get(17).put("jx", "");
+            listChild.add(18, rowx);
+        } else if(listChild.size() > 39 && listChild.size() < 57){
+            Map<String, Object> rowx = new HashMap<>();
+            rowx.putAll(listChild.get(17));
+            listChild.get(17).put("jx", "");
+            listChild.add(18, rowx);
+
+            rowx = new HashMap<>();
+            rowx.putAll(listChild.get(38));
+            listChild.get(38).put("jx", "");
+            listChild.add(39, rowx);
+        } else {
+            Map<String, Object> rowx = new HashMap<>();
+            rowx.putAll(listChild.get(17));
+            listChild.get(17).put("jx", "");
+            listChild.add(18, rowx);
+
+            rowx = new HashMap<>();
+            rowx.putAll(listChild.get(38));
+            listChild.get(38).put("jx", "");
+            listChild.add(39, rowx);
+
+            rowx = new HashMap<>();
+            rowx.putAll(listChild.get(59));
+            listChild.get(59).put("jx", "");
+            listChild.add(60, rowx);
         }
         return list;
     }

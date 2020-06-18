@@ -2593,7 +2593,11 @@
                             <w:tr w:rsidR="007820D8">
                                 <w:trPr>
                                     <w:cantSplit/>
+                                    <#if jzd_index == 17 || jzd_index == 38 || jzd_index == 58>
+                                    <w:trHeight w:val="397"/>
+                                    <#else>
                                     <w:trHeight w:val="312"/>
+                                    </#if>
                                 </w:trPr>
                                 <w:tc>
                                     <w:tcPr>
